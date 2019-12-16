@@ -1,0 +1,3 @@
+[submodule "data/vornamen"]
+	path = data/vornamen
+	url = https://github.com/fxnn/vornamen.git

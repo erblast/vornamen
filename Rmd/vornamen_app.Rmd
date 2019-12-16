@@ -1,0 +1,61 @@
+---
+title: "Vornamen"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+    theme: sandstone
+runtime: shiny
+editor_options: 
+  chunk_output_type: console
+params:
+  data: './data/vornamen'
+---
+
+```{r setup, include=FALSE}
+suppressPackageStartupMessages( library(flexdashboard) )
+suppressPackageStartupMessages( library(shiny) )
+suppressPackageStartupMessages( library(tidyverse) )
+```
+
+Column  {.sidebar}
+-----------------------------------------------------------------------
+
+
+
+```{r}
+shiny::checkboxGroupInput('gender', 'Geschlecht', selected = 'm', choices = c('m','f'))
+shiny::checkboxGroupInput('letters', 'Buchstaben', selected = c('a','i','m','n'), choices = letters )
+```
+
+
+Column  
+-----------------------------------------------------------------------
+
+
+```{r}
+
+files = dir(params$data, '.csv$', full.names = T) 
+
+
+df = tibble( files = files) %>%
+  mutate( data = map(files, read_csv) ) %>%
+  unnest(data) %>%
+  group_by(vorname, geschlecht ) %>%
+  summarise( anzahl = sum(anzahl) )
+
+DT::renderDataTable({
+
+df %>%
+  mutate( contains_all_letters = map_lgl( str_to_lower(vorname), ~ all( str_detect(., input$letters ) ) ) ) %>%
+  filter( contains_all_letters, geschlecht %in% input$gender  ) %>%
+  arrange(desc(anzahl)) %>%
+  select(- contains_all_letters ) %>%
+  DT::datatable(  options = list(pageLength = nrow(.) ) )
+
+})
+  
+          
+
+```
+

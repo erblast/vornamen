@@ -1,0 +1,12 @@
+name: vornamen_app
+title: vornamen_app
+username:
+account: erblast
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 1601110
+bundleId: 2669098
+url: https://erblast.shinyapps.io/vornamen_app/
+when: 1576411984.9296
+asMultiple: FALSE
+asStatic: FALSE
