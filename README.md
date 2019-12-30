@@ -1,5 +1,5 @@
 # vornamen
 
-Searches all German forenames from Cologne of the last years
+Search all forenames registered in Cologne/Germany by gender and letter
 
 https://erblast.shinyapps.io/vornamen/
